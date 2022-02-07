@@ -1,0 +1,5 @@
+musicbrainzngs
+pyarrow
+python-dotenv
+python-sluggify
+spotipy
