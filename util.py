@@ -470,12 +470,14 @@ def get_artist_info(artist_name):
             top_genre = sorted(artist_tags, key=lambda tag: tag["count"])[-1]["name"]
         except:
             top_genre = None
-        artist_releases = mbz.browse_release_groups(artist=artist["id"])
+        artist_releases = mbz.browse_release_groups(artist=artist["id"], limit=100)
         sleep(1)
         try:
             artist_releases_count = len(artist_releases["release-group-list"])
+            release_years = [r.get("first-release-date")[0:4] for r in artist_releases["release-group-list"]]
         except:
             artist_releases_count = 0
+            release_years = []
         return {
             "gender": artist_gender,
             "country": artist_country,
@@ -483,6 +485,7 @@ def get_artist_info(artist_name):
             "hometown": artist_begin_area,
             "begin": artist_begin_year,
             "num_releases": artist_releases_count,
+            "release_years": release_years,
         }
     return {}
 
@@ -507,7 +510,7 @@ def with_mbz_artist_metadata(df, artist_key="artists"):
             continue
 
         # search for artist on mbz
-        mbz_artist = fetch_artist(artist_)
+        mbz_artist = get_artist_info(artist_)
         if mbz_artist is None:
             logging.info(f"skipped: no artist found: {artist_}")
             continue
@@ -525,9 +528,9 @@ def with_mbz_artist_metadata(df, artist_key="artists"):
                "artist_begin"] = mbz_artist.get("begin")
         df.loc[filter_by_artist_(df, artist),
                "artist_total_releases"] = mbz_artist.get("num_releases")
+        df.loc[filter_by_artist_(df, artist),
+               "artist_release_years"] = json.dumps(mbz_artist.get("release_years"))
 
-        # don't trigger spotify rate-limit
-        sleep(1)
         if index % 10 == 0:
             total_artists = len(df)
             null_artists = df["artist_genre"].isnull().sum()

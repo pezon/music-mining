@@ -1,90 +1,8 @@
 # Music Mining
 
-In the universe of charted songs, why did some songs become nominated? Why were some songs awarded? Why did some songs stay on to top of the charts for so long, and others not? — Characteristics of the music, or the recording label behind it? — Can we establish causality? — Characteristics of music before and after artist signed to a major label.
-
-Hypothesis: GRAMMY awards are all politics. It has more to do with the label more than how the band sounds. Music industry politics can't be described or measured systemically, and are represented instead in the unexplained variance. — Establish that all nominated and awarded music sounds the same.
-
-
-What features of a song are similar across top 10 and bottom 10?
-
-Later: what features of an album? snapshot of artist? 
-
-Later: add artist nomination/award features later - hypothesis: if artist has won before, are they likely to win again?
-
-Is it politics?
-- Artists who have won have either 1. won previously; or 2. been nominated many times w/out winning.
-- Only American artists
-
-
-Use only tracks
-
-Chart2000: only one artist
-- Peak chart position
-- Avg chart position
-- Median chart position
-- Number months its charted
-- Total revenue
-
-Next step:
-- One dataset
-- Spotify feature information
-- Whether track nominated/won, category
-- Number of months on chart
-- Avg position on chart
-- *** Aggregated chart dataset
-
-track_won
-track_nominated
-artist_won
-artist_nominated
-
-Datasets:
-- Spotify to Grammy
-- Sample tracks features
-
-
-NEED TO ADD:
-- Label data
-- Country data
-- Artist first release?
-
-NEXT:
-- [ ] summarize charts
-- [X] merge track features w/ grammy nominations
-- [ ] merge track features w/ charts
-- [ ] filter tracks for only relevant tracks
-- [ ] track grammy and chart songs missing from tracks
-- [ ] slices:
-      - un-nominated & un-charted
-      - charted, not nominated
-      - not charted, nominated
-      - winner
-- [ ] slices (future): w/ labels
-- [ ] GET RANDOM SONGS...
-- 
-
-
-FUTURE:
-- [ ] create album-centric dataset, w/ albums that have been nominated,
-- [ ] albums that track a particular artist through label history?
-  - random sample artists that have won
-  - select random albums before they won and after they won
-  - download all tracks from album
-  - create cluster or summary of album
-  - compare
-
-
-## Prior work
-[Can the charts here tell us anything about long term trends](https://tsort.info/music/faq_peak_music.htm)
-
-https://tsort.info/
-
-
-
 ## Dataset
 
-
-I’ve compiled a dataset of Spotify tracks and their audio features, and assigned a category for their chart status, artist status and recording award status. The dataset is compiled from recordings nominated for a Grammy (n=~535), tracks that have entered the Chart2000 global aggregated monthly song chart (n=~3300), and a random sample (n=1000) from Spotify daily charts. The dataset is de-duplicated on track id, and limited to the years 2000-2021. The dataset is small (n=4237) but fairly balanced across the three categories.
+Presented is a compilation of a dataset of Spotify tracks and their audio features, and assigned a category for their chart status, artist status and recording award status. The dataset is compiled from recordings nominated for a Grammy (n=~535), tracks that have entered the Chart2000 global aggregated monthly song chart (n=~3300), and a random sample (n=1000) from Spotify daily charts. The dataset is de-duplicated on track id, and limited to the years 2000-2021. The dataset is small (n=4237) but fairly balanced across the three categories.
 
 It’s not “big data,” but it’ll make for more easily analysis. If we’d like to add more data, we can explore incorporating more songs from Spotify’s daily and weekly charts and viral charts, or another global charts aggregator (https://tsort.info/). The limiting factor is the number of tracks nominated for a Grammy (535) and (~75). In the future, we could add data based on nominated albums, or other recordings by artists that have charted or been nominated later or previously in their career. I think this is good for now though!
 
@@ -109,8 +27,34 @@ no. charted songs w/ nominations: 216
 no. songs w/out nomination or chart: 0
 
 
-### Collection methodology
+### Data sources
+- [Chart2000](https://chart2000.com/about.htm)
+- [MusicBrainz](https://musicbrainz.org/doc/MusicBrainz_API)
+- [GRAMMY Nominees - MusicBrainz](https://musicbrainz.org/series/216a2b1f-33e7-46a2-80d9-751ff7e20303)
+- [Spotify Top 200 charts](https://rpubs.com/elgindykareem/top200charts)
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api/reference/#/operations/get-several-audio-features)
 
+Alternative data sources:
+* [MusicMoz - Record Labels](https://musicmoz.org/Record_Labels/)
+* [Grammy Awards | Kaggle](https://www.kaggle.com/unanimad/grammy-awards)
+
+Chart2000:
+- Peak chart position
+- Avg chart position
+- Median chart position
+- Number months its charted
+- Total revenue
+
+MusicBrainz:
+- Grammy award nominations (category and year)
+- Musical genre
+- Number of releases
+- Recording label and publishers
+
+Spotify:
+- Audio features
+
+### Collection methodology
 - Collection: nominated and awarded artists
     - Loop through Grammy awards and Billboard 100 lists
         - For each awarded and nominated artist:
@@ -120,53 +64,60 @@ no. songs w/out nomination or chart: 0
                     - Collect EchoNest data from Spotify
 
 
-Next steps:
-- Combine grammy nominees and chart tracks together 
+### Limitations of dataset
+Dataset is constructed from Grammy-nominated and top-charting songs.
 
-Curated list of labels:
-[MusicMoz - Record Labels](https://musicmoz.org/Record_Labels/)
-[GRAMMY Nominees - MusicBrainz](https://musicbrainz.org/series/216a2b1f-33e7-46a2-80d9-751ff7e20303)
+### Missing features
+* Music genre (from Spotify)
+* Artist background: home town, home country, when they started.
+* Recording labels and publishers (from MusicBrainz)
+* Album type (e.g., single, EP, LP, compilation)
 
-Similar: [GitHub - JLUT/Billboard_Grammy_Project1: Using Top 100 Data and Grammy Winners from the past 20 years,  analyzed datasets to determine if a Grammy winner can be determined based on the Billboard Top 100.](https://github.com/JLUT/Billboard_Grammy_Project1)
-[Grammy Awards | Kaggle](https://www.kaggle.com/unanimad/grammy-awards)
-
-Alternative datasets: [Spotify Top 200 charts](https://rpubs.com/elgindykareem/top200charts)
-
-## Preprocessing
-
+### Preprocessing
 * Calculate variables for artists: year of first award nomination,
   first award win, latest nomination, latest win, number of awards, number of nominations.
-* Aggregate artist on the year?
+* Aggregate artist on the year
 
-## Using the data
-
-* Artist nomination
-* Album nomination
-* Recording nomination
 
 ## Analysis
-- Analysis
-    - Add labels to identify the song and release that was nominated or awarded, and indicating whether an artist had been nominated or awarded, and the year the artist was nominated or awarded.
-    - Label a release label as independent or major - clustering and validation using known labels?
-    - Summarize albums and artists: PCA or clustering
-    - Compare songs or releases before and after nomination or award
-    - Compare grammy nominees vs grammy winners?
-    - Predict projected revenue - [Chart2000.com: Music Charts 2000 - 2021](https://chart2000.com/about.htm#google_vignette)
-    - Compare songs by major labels vs independent labels. What are characteristics of billboard songs or grammy nominees/winners that are independent musicians?
-    - Cluster songs based on characteristics - see if they land on cluster around major labels
-    
 
-- Analysis
-    - What factors are involved for a song to be nominated for an award? (e.g., H_A: revenue, top of charts)
-    - What factors are involved for a song to be at the top of the charts? (e.g., H_A: high dancability)
-    - Are the factors involved for a song to be nominated and to be at the top of the chart the same?
-    - Find songs that are similar to a nominated or charted songs;  what factor separates them?
-    - Cluster songs w/out award/chart status as a factor, colored by award/chart status; cluster again \
-    - Is song/artist that's uncharted, unnominated, but sounds the same - are they unnoticed? are they signed/unsigned? are they young, old, washed out?
-      - are they the next big thing? compare against artists nomination/award status 5 years later. (or signed by a label )
-      - if they get signed, what happens after they're signed? do they win? do they chart? does their sound change?do they continue releaseing music? 
-    - How much more likely is an artist to chart or be nominated if they've already won?
----
+Some questions we can ask:
+* In the universe of charted songs, why did some songs become nominated? 
+* Why were some songs awarded? What are factors for a recording to be nominated for an award?
+* Why did some songs stay on to top of the charts for so long, and others not?
+* What's important - musical characteristics, or the marketing and politics of the record label and publisher? 
+* What are characteristics of independent artists vs major label artists?
+* What characteristics of an artist's recordings change after an artist signs to a major label?
+* Once an artist is signed, what happens - are they more likely to chart? Does their sound change? Do they continue to release recordings?
+* What are characteristics of nominated and un-nominated artists?
+* How does an artist's work change after they've been nominated?
+* What features of a song are similar across the top of the charts, and the bottom of the charts?
+* Can we predict whether an artist will be a one-hit-wonder or have a long career?
+* How do recordings cluster - by genre, top charting, major labels?
+* Are the factors involved for a song to be nominated and to be at the top of the chart the same?
+* What songs are similar to nominated or charting songs? What factors separate them? (e.g., experience, label status)
+* How much more likely is an artist to chart or be nominated if they've already won?
+
+Hypotheses:
+* GRAMMY awards are all politics, rather than artist or track qualities. 
+* Charting is all marketing budget
+* Top charting songs all sound the same
+* Top charting songs lead to Grammy nominations
+* An artist who has won previously or charted previously are likely to chart again.
+* An artist who has been nominated previously without winning are likely to win.
+
+## Prior work
+* [Can the charts here tell us anything about long term trends](https://tsort.info/music/faq_peak_music.htm)
+* [The show must go on](https://www.goldmansachs.com/insights/pages/infographics/music-in-the-air-2020/report.pdf)
+* [GitHub - JLUT/Billboard_Grammy_Project1: Using Top 100 Data and Grammy Winners from the past 20 years,  analyzed datasets to determine if a Grammy winner can be determined based on the Billboard Top 100.](https://github.com/JLUT/Billboard_Grammy_Project1)
+* [Spotify Top 200 charts](https://rpubs.com/elgindykareem/top200charts)
+
+## Tasks
+
+EDA:
+* Missing values and imputing
+* Multicollinearity
+
 
 ## Notes about Grammy awards dataset
 
