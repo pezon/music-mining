@@ -1,3 +1,4 @@
+jupyter
 musicbrainzngs
 pyarrow
 python-dotenv

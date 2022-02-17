@@ -1,5 +1,29 @@
 # Music Mining
 
+## Installion and usage
+
+1. Create virtual environment
+2. Install library dependencies
+```shell
+pip install -r requirements.txt
+```
+3. Run jupyter
+```shell
+jupyter lab
+```
+
+Order of operations:
+1. Download Spotify charts dataset: https://www.kaggle.com/general/232036
+2. Download Charts2000 dataset: https://chart2000.com/data/chart2000-songmonth-0-3-0063.csv
+3. Run `prepare_grammys.ipynb`
+4. Run `prepare_charts.ipynb` (and update path to Charts2000 dataset)
+5. Run `prepare_labels.ipynb` (**WARNING: SLOW. Only update if absolutely necessary.** Recommend differential updates.)
+6. Run `prepare_artists.ipynb` (**WARNING: SLOW. Recommend differential updates.)
+7. Run `prepare_tracks.ipynb`
+
+When new tracks are added, we need to ingest additional artist and label data if it's not in our dataset.
+Add tracks to `prepare_tracks`, then run differential updates in `prepare_labels` (TBD) and `prepare_artists`.
+
 ## Dataset
 
 Presented is a compilation of a dataset of Spotify tracks and their audio features, and assigned a category for their chart status, artist status and recording award status. The dataset is compiled from recordings nominated for a Grammy (n=~535), tracks that have entered the Chart2000 global aggregated monthly song chart (n=~3300), and a random sample (n=1000) from Spotify daily charts. The dataset is de-duplicated on track id, and limited to the years 2000-2021. The dataset is small (n=4237) but fairly balanced across the three categories.
@@ -111,6 +135,7 @@ Hypotheses:
 * [The show must go on](https://www.goldmansachs.com/insights/pages/infographics/music-in-the-air-2020/report.pdf)
 * [GitHub - JLUT/Billboard_Grammy_Project1: Using Top 100 Data and Grammy Winners from the past 20 years,  analyzed datasets to determine if a Grammy winner can be determined based on the Billboard Top 100.](https://github.com/JLUT/Billboard_Grammy_Project1)
 * [Spotify Top 200 charts](https://rpubs.com/elgindykareem/top200charts)
+* [Future of Music](http://money.futureofmusic.org/findings/)
 
 ## Tasks
 

@@ -481,11 +481,11 @@ def get_artist_info(artist_name):
         return {
             "gender": artist_gender,
             "country": artist_country,
-            "genre": top_genre,
+            #"genre": top_genre,
             "hometown": artist_begin_area,
-            "begin": artist_begin_year,
-            "num_releases": artist_releases_count,
-            "release_years": release_years,
+            # "begin": artist_begin_year,
+            # "num_releases": artist_releases_count,
+            # "release_years": release_years,
         }
     return {}
 
