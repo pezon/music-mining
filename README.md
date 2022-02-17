@@ -12,7 +12,18 @@ pip install -r requirements.txt
 jupyter lab
 ```
 
-Order of operations:
+Datasets of interest for analysing tracks:
+* `data/tracks.pq` (Parquet format; gzipped CSV also available)
+
+Dataset of interest for analysing artists:
+* `data/artist_summary.pq` (Parquet format; gzipped CSV also available)
+
+Artist summary variables are merged into tracks such that tracks have a snapshot of the artist's history
+at the time that the track was released. For example, artist summary has charting information from 2000-2021;
+when joined to tracks, if a track was released in 2017, only charting information for 2016 is considered.
+
+### Generating datasets
+To create datasets from scratch:
 1. Download Spotify charts dataset: https://www.kaggle.com/general/232036
 2. Download Charts2000 dataset: https://chart2000.com/data/chart2000-songmonth-0-3-0063.csv
 3. Run `prepare_grammys.ipynb`
