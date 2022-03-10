@@ -9,6 +9,7 @@ from typing import List
 from dotenv import load_dotenv
 import musicbrainzngs as mbz
 import pandas as pd
+from thefuzz import fuzz
 from requests.exceptions import ReadTimeout
 from slugify import slugify
 from spotipy import Spotify
@@ -145,26 +146,47 @@ def resolve_release_date(artist_name, track_name):
     return release_year, release_date
 
 
+def best_match(result, artist, track):
+    for t in result["tracks"]["items"]:
+        t_artist = t["artists"][0]["name"]
+        t_track = t["name"]
+        artist_fuzz_score = fuzz.token_sort_ratio(artist, t_artist)
+        track_fuzz_score = fuzz.token_sort_ratio(track, t_track)
+        if artist_fuzz_score > 85 and track_fuzz_score > 85:
+            return t
+    return None
+
+
 def fetch_track(artist, track):
-    try:
-        artist_ = artist
-        result = spotify.search(f"track:{track} artist:{artist}")
-        if result["tracks"]["total"] == 0:
-            artist_, _ = resolve_names(artist, track)
-            result = spotify.search(f"track:{track} artist:{artist_}")
-            sleep(.25)
-        if result["tracks"]["total"] == 0:
-            result = spotify.search(f"{artist} {track}")
-            sleep(.25)
-        if result["tracks"]["total"] == 0:
-            result = spotify.search(f"{artist_} {track}")
-            sleep(.25)
-        if result["tracks"]["total"] == 0:
+    artists = [artist]
+    if artist.startswith("The "):
+        artists.append(artist[4:])
+    for artist in artists:
+        try:
+            artist_ = artist
+            result = spotify.search(f"track:{track} artist:{artist}")
+            best_match_ = best_match(result, artist, track)
+            if result["tracks"]["total"] == 0 and not best_match_:
+                artist_, _ = resolve_names(artist, track)
+                result = spotify.search(f"track:{track} artist:{artist_}")
+                best_match_ = best_match(result, artist, track)
+                sleep(.25)
+            if result["tracks"]["total"] == 0 and not best_match_:
+                result = spotify.search(f"{artist} {track}")
+                best_match_ = best_match(result, artist, track)
+                sleep(.25)
+            if result["tracks"]["total"] == 0 and not best_match_:
+                result = spotify.search(f"{artist_} {track}")
+                best_match_ = best_match(result, artist, track)
+                sleep(.25)
+            if result["tracks"]["total"] == 0 and not best_match_:
+                return None
+        except ReadTimeout:
+            print("spotify time out.")
             return None
-    except ReadTimeout:
-        print("spotify time out.")
-        return None
-    return result["tracks"]["items"][0]
+        if best_match_:
+            return best_match_
+    return None
 
 
 def fetch_track_audio_features(track_id):
