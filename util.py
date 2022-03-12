@@ -165,6 +165,7 @@ def fetch_track(artist, track):
         try:
             artist_ = artist
             result = spotify.search(f"track:{track} artist:{artist}")
+            sleep(.25)
             best_match_ = best_match(result, artist, track)
             if result["tracks"]["total"] == 0 and not best_match_:
                 artist_, _ = resolve_names(artist, track)
@@ -244,8 +245,8 @@ def with_spotify_track_metadata(df, artist_key="artist", track_key="song"):
         if index % 10 == 0:
             total_tracks = len(df)
             null_tracks = df["spotify_track_id"].isnull().sum()
-            logging.info(f"status: {100 - null_tracks / total_tracks * 100:.2f} "
-                         f"({total_tracks - null_tracks} / {total_tracks}")
+            print(f"status: {100 - null_tracks / total_tracks * 100:.2f} "
+                  f"({total_tracks - null_tracks} / {total_tracks}")
     return df
 
 
