@@ -1,6 +1,8 @@
 # Music Mining
 
-This is the primary code repository of a project for MSCA 31008 Data Mining. Authors: Ben Ossyra, Dominique McBride, Peter Fuentes Rosa, Peter Pezon.
+This is the primary code repository of a project for MSCA 31008 Data Mining. 
+
+Authors: Ben Ossyra, Dominique McBride, Peter Fuentes Rosa, Peter Pezon.
 
 ## Installion
 
