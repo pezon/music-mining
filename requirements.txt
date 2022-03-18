@@ -1,6 +1,16 @@
+imbalanced-learn
 jupyter
+mplcyberpunk
 musicbrainzngs
+numpy
+pandas
 pyarrow
 python-dotenv
 python-sluggify
+scipy
+scikit-learn
+scikit-lego
+seaborn
 spotipy
+tqdm
+yellowbrick
