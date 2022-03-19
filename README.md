@@ -2,7 +2,9 @@
 
 This is the primary code repository of a project for MSCA 31008 Data Mining titled 
 "How to Have a Number One Hit the Easy Way: Analysis of the music industry using data mining techniques"
-by Ben Ossyra, Dominique McBride, Peter Fuentes Rosa, Peter Pezon.
+by Ben Ossyra, Dominique McBride, Peter Fuentes Rosa, Peter Pezon. You can find the accompanying
+[final report](presentation/How%20To%20Have%20A%20Number%20One%20The%20Easy%20Way.pdf) and
+[PowerPoint presentation](presentation/Music_Presentation.pptx) in this repository as well.
 
 This project was inspired by "[The Manual](https://freshonthenet.co.uk/the-manual-by-the-klf/)" by the KLF,
 who [published a step-by-step guide to achieving a No.1 single](https://en.wikipedia.org/wiki/The_Manual)
