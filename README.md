@@ -91,7 +91,7 @@ Add tracks to `prepare_tracks`, then run differential updates in `prepare_labels
 ### Limitations of dataset
 Dataset is constructed from Grammy-nominated, top-charting songs and popular songs on Spotify's Daily Charts.
 
-## Notes about Grammy awards dataset
+### Notes about Grammy awards dataset
 
 Collected from MusicBrainz Grammy Awards event series and subseries release groups.
 MusicBrainz data is aggregated from Wikipedia. 
@@ -165,6 +165,8 @@ Hypotheses:
 ## Modeling
 
 ![Modeling pipeline](presentation/Pipeline-Modeling.png)
+
+We are creating a model for predicting whether a track will make it to the Global Top 50 charts using audio features.
 
 ## Prior work
 * [Can the charts here tell us anything about long term trends](https://tsort.info/music/faq_peak_music.htm)
